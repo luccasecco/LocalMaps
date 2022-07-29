@@ -12,8 +12,8 @@ export const Container = styled.div`
 export const Form = styled.form`
   width: 40vw;
   background-color: ${(props) => props.theme.white};
-  padding: 50px;
-  margin-top: 40px;
+  padding: 3.125rem;
+  margin-top: 2.5rem;
   border-radius: 8px;
   @media (max-width: 1024px) {
     width: 70vw;
@@ -22,8 +22,8 @@ export const Form = styled.form`
 
 export const FormTitle = styled.h2`
   color: ${(props) => props.theme.primary};
-  font-size: 40px;
-  padding-bottom: 30px;
+  font-size: 2.5rem;
+  padding-bottom: 1.875rem;
 `
 
 export const MapContainer = styled(MapContainerLeaflet)`
@@ -32,9 +32,9 @@ export const MapContainer = styled(MapContainerLeaflet)`
 
 export const Section = styled.p`
   color: ${(props) => props.theme.primary};
-  font-size: 20px;
-  padding-bottom: 30px;
-  padding-top: 30px;
+  font-size: 1.25rem;
+  padding-bottom: 1.875rem;
+  padding-top: 1.875rem;
   font-weight: 700;
 `
 
@@ -50,30 +50,30 @@ export const CategoryBox = styled.div<{ isActive: boolean }>`
   border: ${(props) =>
     props.isActive ? `2px solid ${props.theme.background}` : 'none'};
   border-radius: 8px;
-  width: 160px;
-  height: 160px;
+  width: 10rem;
+  height: 10rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 10px;
+  margin: 0.625rem;
   cursor: pointer;
 `
 
 export const CategoryImage = styled.img`
-  width: 40px;
-  height: 40px;
+  width: 2.5rem;
+  height: 2.5rem;
 `
 
 export const ButtonContainer = styled.div`
   text-align: center;
-  padding-top: 20px;
+  padding-top: 1.125rem;
 `
 
 export const Button = styled.button`
   background-color: ${(props) => props.theme.primary};
   color: ${(props) => props.theme.white};
-  height: 50px;
+  height: 3.125rem;
   border: none;
   border-radius: 5px;
   &:hover {
