@@ -58,6 +58,12 @@ export const CategoryBox = styled.div<{ isActive: boolean }>`
   align-items: center;
   margin: 0.625rem;
   cursor: pointer;
+
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: ${(props) => props.theme.secondary};
+  }
 `
 
 export const CategoryImage = styled.img`
@@ -74,9 +80,14 @@ export const Button = styled.button`
   background-color: ${(props) => props.theme.primary};
   color: ${(props) => props.theme.white};
   height: 3.125rem;
+  width: 8rem;
   border: none;
   border-radius: 5px;
+
+  cursor: pointer;
+  transition: background-color 0.2s;
+
   &:hover {
-    background-color: ${(props) => props.theme.primary}99;
+    background-color: ${(props) => props.theme.secondary};
   }
 `

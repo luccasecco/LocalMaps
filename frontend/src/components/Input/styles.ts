@@ -4,6 +4,12 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   padding-bottom: 1.875rem;
+
+  label {
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    color: ${(props) => props.theme.primary};
+  }
 `
 
 export const InputStyled = styled.input`
@@ -12,6 +18,6 @@ export const InputStyled = styled.input`
   color: ${(props) => props.theme.text};
   border-radius: 8px;
   height: 1.75rem;
-  font-size: 1.5rem;
-  padding: 1rem;
+  font-size: 0.875rem;
+  padding: 1.5rem;
 `

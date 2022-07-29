@@ -49,6 +49,14 @@ export function New() {
         autoClose: 2000,
       })
     }
+
+    setFormValues({
+      name: '',
+      description: '',
+      contact: '',
+      category: '',
+      coords: [0, 0],
+    })
   }
 
   if (!coords) {
@@ -85,21 +93,21 @@ export function New() {
         <FormTitle>Cadastro do comércio local</FormTitle>
         <Section>Dados</Section>
         <Input
-          label="Nome do local"
+          label="Nome do empreendimento"
           name="name"
           value={formValues.name}
           onChange={setFormValues}
         />
 
         <Input
-          label="Descrição"
+          label="Descrição das atividades"
           name="description"
           value={formValues.description}
           onChange={setFormValues}
         />
 
         <Input
-          label="Contato"
+          label="Telefone para contato"
           name="contact"
           value={formValues.contact}
           onChange={setFormValues}
@@ -152,7 +160,7 @@ export function New() {
         </CategoryContainer>
 
         <ButtonContainer>
-          <Button type="submit">Salvar</Button>
+          <Button type="submit">Cadastrar</Button>
         </ButtonContainer>
       </Form>
     </Container>
