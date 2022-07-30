@@ -1,9 +1,10 @@
 import { Input } from '../../components/Input'
 import { useState } from 'react'
-import { LatLngExpression } from 'leaflet'
+import { LatLngExpression, LeafletMouseEvent } from 'leaflet'
 import { TileLayer, Marker } from 'react-leaflet'
 import { categories } from './categories'
 import { useGetLocation } from '../../hooks/useGetLocation'
+import { useNavigate } from 'react-router-dom'
 
 import {
   ButtonContainer,
@@ -18,13 +19,17 @@ import {
   Section,
 } from './styles'
 import { toast } from 'react-toastify'
+import { Header } from '../../components/Header'
 
 export function New() {
+  const navigate = useNavigate()
   const [formValues, setFormValues] = useState({
     name: '',
     description: '',
     contact: '',
     category: '',
+    street: '',
+    city: '',
     coords: [0, 0],
   })
 
@@ -47,6 +52,7 @@ export function New() {
       toast('Estabelecimento gravado com sucesso!', {
         type: 'success',
         autoClose: 2000,
+        onClose: () => navigate('/'),
       })
     }
 
@@ -55,6 +61,8 @@ export function New() {
       description: '',
       contact: '',
       category: '',
+      street: '',
+      city: '',
       coords: [0, 0],
     })
   }
@@ -63,106 +71,105 @@ export function New() {
     return <h1>Obtendo localização ...</h1>
   }
 
-  // function LocationMarker() {
-  //   const [position, setPosition] = useState(null)
-  //   const map = useMapEvents({
-  //     click() {
-  //       map.locate()
-  //     },
-  //     locationfound(e) {
-  //       setPosition(e.latlng)
-  //       map.flyTo(e.latlng, map.getZoom())
-  //     },
-  //   })
-
-  //   return position === null ? null : (
-  //     <Marker position={position}>
-  //       <Popup>You are here</Popup>
-  //     </Marker>
-  //   )
-  // }
+  const position = [
+    formValues.coords[0],
+    formValues.coords[1],
+  ] as LatLngExpression
 
   return (
-    <Container>
-      <Form
-        onSubmit={(ev) => {
-          ev.preventDefault()
-          onSubmit()
-        }}
-      >
-        <FormTitle>Cadastro do comércio local</FormTitle>
-        <Section>Dados</Section>
-        <Input
-          label="Nome do empreendimento"
-          name="name"
-          value={formValues.name}
-          onChange={setFormValues}
-        />
-
-        <Input
-          label="Descrição das atividades"
-          name="description"
-          value={formValues.description}
-          onChange={setFormValues}
-        />
-
-        <Input
-          label="Telefone para contato"
-          name="contact"
-          value={formValues.contact}
-          onChange={setFormValues}
-        />
-
-        <Section>Endereço</Section>
-
-        <MapContainer
-          center={
-            {
-              lat: coords[0],
-              lng: coords[1],
-            } as LatLngExpression
-          }
-          zoom={13}
-          // whenCreated={(map: any) => {
-          //   map.addEventListener('click', (event: LeafletMouseEvent) => {
-          //     setFormValues((prev) => ({
-          //       ...prev,
-          //       coords: [event.latlng.lat, event.latlng.lng],
-          //     }))
-          //   })
-          // }}
+    <>
+      <Header />
+      <Container>
+        <Form
+          onSubmit={(ev) => {
+            ev.preventDefault()
+            onSubmit()
+          }}
         >
-          <TileLayer
-            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          <FormTitle>Cadastro do comércio local</FormTitle>
+          <Section>Dados</Section>
+          <Input
+            label="Nome do empreendimento"
+            name="name"
+            value={formValues.name}
+            onChange={setFormValues}
           />
-          <Marker
-            position={
-              [formValues.coords[0], formValues.coords[1]] as LatLngExpression
+
+          <Input
+            label="Descrição das atividades"
+            name="description"
+            value={formValues.description}
+            onChange={setFormValues}
+          />
+
+          <Input
+            label="Telefone para contato"
+            name="contact"
+            value={formValues.contact}
+            onChange={setFormValues}
+          />
+
+          <Section>Endereço</Section>
+
+          <Input
+            label="Rua"
+            name="street"
+            value={formValues.street}
+            onChange={setFormValues}
+          />
+
+          <Input
+            label="Cidade"
+            name="city"
+            value={formValues.city}
+            onChange={setFormValues}
+          />
+
+          <MapContainer
+            center={
+              {
+                lat: coords[0],
+                lng: coords[1],
+              } as LatLngExpression
             }
-          />
-        </MapContainer>
+            zoom={13}
+            whenCreated={(map) => {
+              map.addEventListener('click', (event: LeafletMouseEvent) => {
+                setFormValues((prev) => ({
+                  ...prev,
+                  coords: [event.latlng.lat, event.latlng.lng],
+                }))
+              })
+            }}
+          >
+            <TileLayer
+              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            <Marker position={position} />
+          </MapContainer>
 
-        <Section>Categoria</Section>
-        <CategoryContainer>
-          {categories.map((category) => (
-            <CategoryBox
-              key={category.key}
-              onClick={() => {
-                setFormValues((prev) => ({ ...prev, category: category.key }))
-              }}
-              isActive={formValues.category === category.key}
-            >
-              <CategoryImage src={category.url} />
-              {category.label}
-            </CategoryBox>
-          ))}
-        </CategoryContainer>
+          <Section>Categoria</Section>
+          <CategoryContainer>
+            {categories.map((category) => (
+              <CategoryBox
+                key={category.key}
+                onClick={() => {
+                  setFormValues((prev) => ({ ...prev, category: category.key }))
+                }}
+                isActive={formValues.category === category.key}
+              >
+                <CategoryImage src={category.url} />
+                {category.label}
+              </CategoryBox>
+            ))}
+          </CategoryContainer>
 
-        <ButtonContainer>
-          <Button type="submit">Cadastrar</Button>
-        </ButtonContainer>
-      </Form>
-    </Container>
+          <ButtonContainer>
+            <Button type="submit">Cadastrar</Button>
+          </ButtonContainer>
+        </Form>
+      </Container>
+    </>
   )
 }
