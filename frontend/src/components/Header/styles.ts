@@ -20,6 +20,16 @@ export const Container = styled.div`
       color: ${(props) => props.theme.secondary};
     }
   }
+
+  @media screen and (max-width: 768px) {
+    a:nth-of-type(2) {
+      display: none;
+    }
+
+    a:nth-of-type(1) {
+      margin: 0 auto;
+    }
+  }
 `
 
 export const Logo = styled.div`

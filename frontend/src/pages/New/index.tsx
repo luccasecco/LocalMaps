@@ -1,7 +1,7 @@
 import { Input } from '../../components/Input'
 import { useState } from 'react'
-import { LatLngExpression, LeafletMouseEvent } from 'leaflet'
-import { TileLayer, Marker } from 'react-leaflet'
+import L, { LatLngExpression, LeafletMouseEvent } from 'leaflet'
+import { TileLayer, Marker, MapContainer } from 'react-leaflet'
 import { categories } from './categories'
 import { useGetLocation } from '../../hooks/useGetLocation'
 import { useNavigate } from 'react-router-dom'
@@ -15,11 +15,16 @@ import {
   Container,
   Form,
   FormTitle,
-  MapContainer,
   Section,
 } from './styles'
 import { toast } from 'react-toastify'
 import { Header } from '../../components/Header'
+
+function getIcon() {
+  return L.icon({
+    iconUrl: 'https://unpkg.com/leaflet@1.5.0/dist/images/',
+  })
+}
 
 export function New() {
   const navigate = useNavigate()
@@ -70,11 +75,6 @@ export function New() {
   if (!coords) {
     return <h1>Obtendo localização ...</h1>
   }
-
-  const position = [
-    formValues.coords[0],
-    formValues.coords[1],
-  ] as LatLngExpression
 
   return (
     <>
@@ -133,6 +133,7 @@ export function New() {
               } as LatLngExpression
             }
             zoom={13}
+            className="sizeMap"
             whenCreated={(map) => {
               map.addEventListener('click', (event: LeafletMouseEvent) => {
                 setFormValues((prev) => ({
@@ -143,10 +144,14 @@ export function New() {
             }}
           >
             <TileLayer
-              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            <Marker position={position} />
+            <Marker
+              position={[formValues.coords[0], formValues.coords[1]]}
+              draggable={true}
+              icon={getIcon()}
+            />
           </MapContainer>
 
           <Section>Categoria</Section>

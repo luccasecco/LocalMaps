@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { MapContainer as MapContainerLeaflet } from 'react-leaflet'
+// import { MapContainer as MapContainerLeaflet } from 'react-leaflet'
 
 export const Container = styled.div`
   display: flex;
@@ -15,6 +15,11 @@ export const Form = styled.form`
   padding: 3.125rem;
   margin-top: 2.5rem;
   border-radius: 8px;
+
+  .sizeMap {
+    height: 50vh;
+  }
+
   @media (max-width: 1024px) {
     width: 70vw;
   }
@@ -26,9 +31,9 @@ export const FormTitle = styled.h2`
   padding-bottom: 1.875rem;
 `
 
-export const MapContainer = styled(MapContainerLeaflet)`
-  height: 50vh;
-`
+// export const MapContainer = styled(MapContainerLeaflet)`
+//   height: 50vh;
+// `
 
 export const Section = styled.p`
   color: ${(props) => props.theme.primary};

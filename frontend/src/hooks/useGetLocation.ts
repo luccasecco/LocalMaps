@@ -6,6 +6,7 @@ export function useGetLocation() {
   const [coords, setCoords] = useState<number[] | null>(null)
 
   useEffect(() => {
+    // eslint-disable-next-line no-undef
     function onSuccess(position: GeolocationPosition) {
       setCoords([position.coords.latitude, position.coords.longitude])
     }
