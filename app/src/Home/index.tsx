@@ -1,10 +1,34 @@
 import { View, Text, SafeAreaView, FlatList, TouchableOpacity, Image } from 'react-native'
 import { styles } from './styles'
 import MapView, { Marker } from 'react-native-maps'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { categories } from './categories'
+import { useNavigation } from '@react-navigation/native'
+
+export interface IMarker {
+  category: string,
+  contacts: string,
+  description: string,
+  id: string,
+  latitude: number,
+  longitude: number,
+  name: string,
+}
 
 export function Home() {
+  const [markers, setMarkers] = useState<IMarker[]>([])
+  const navigation = useNavigation()
+
+  console.log(markers)
+
+  useEffect(() => {
+    fetch("http://172.16.0.1:3000/store").then(async (request) => {
+      const data = await request.json()
+
+      setMarkers(data)
+    })
+  }, [])
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerContainer}>
@@ -13,10 +37,18 @@ export function Home() {
       </View>
 
       <MapView style={styles.map}>
-        <Marker coordinate={{
-          latitude: 0,
-          longitude: 0,
-        }}/>
+        {markers.map((item) => { return (
+          <Marker 
+          key={item.id}
+          coordinate={{
+            latitude: item.latitude,
+            longitude: item.longitude,
+          }}
+          onPress={() => {
+            navigation.navigate('Detail', item)
+          }}
+        />
+        )})}
       </MapView>
 
       <View style={styles.categoryContainer}>
